@@ -7,41 +7,37 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
-      <div class="brand">
-        <a href="index.html">AZoom <span class="accent">Car Rental</span></a>
-      </div>
-
+      <div class="brand"><a href="index.html">AZoom <span class="accent">Car Rental</span></a></div>
       <nav class="main-nav">
         <a href="index.html" class="nav-link">Home</a>
         <a href="cars.html" class="nav-link">Our Cars</a>
         <a href="about.html" class="nav-link">Why Choose Us</a>
         <a href="booking.html" class="nav-link active">Booking</a>
       </nav>
-
-      <!-- Right-side auth box (populated by script.js) -->
-      <div data-auth></div>
+      <div data-auth>
+        <a id="loginLink" class="cta-outline" href="login.html">Login</a>
+      </div>
     </div>
   </header>
 
   <main class="container">
     <section class="section">
       <h1 class="section-title">Reserve a Car</h1>
-      <p class="section-sub">Fill in the details below. This demo validates card input and simulates a reservation confirmation dialog (no backend).</p>
+      <p class="section-sub">Fill in the details below to reserve. This is a front-end demo only (no backend).</p>
 
       <form id="bookingForm" class="form-grid" onsubmit="return handleBooking(event)">
         <label>Full name
-          <input id="name" name="name" type="text" required placeholder="e.g. Chia Kang Lin">
+          <input id="name" name="name" type="text" required placeholder="e.g. Chia Kang Lin" />
         </label>
 
         <label>Email
-          <input id="email" name="email" type="email" required placeholder="you@example.com">
+          <input id="email" name="email" type="email" required placeholder="you@example.com" />
         </label>
 
         <label>Phone
-          <input id="phone" name="phone" type="text" required placeholder="+65 8xxxxxxx">
+          <input id="phone" name="phone" type="text" required placeholder="+65 8xxxxxxx" />
         </label>
 
         <label>Select car
@@ -72,7 +68,7 @@
         </label>
 
         <label>Credit card number
-          <input id="creditCard" name="creditCard" maxlength="19" placeholder="1234 5678 9012 3456" required>
+          <input id="creditCard" name="creditCard" maxlength="19" placeholder="1234 5678 9012 3456" required />
         </label>
 
         <div class="form-actions">
@@ -89,13 +85,10 @@
       <button class="modal-close" onclick="closeConfirm()">×</button>
       <h3>Reservation Received</h3>
       <p id="confirmText">We received your reservation. (Demo)</p>
-      <div class="modal-actions">
-        <button class="btn" onclick="closeConfirm()">Close</button>
-      </div>
+      <div class="modal-actions"><button class="btn" onclick="closeConfirm()">Close</button></div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>© 2025 AZoom Car Rental</div>

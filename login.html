@@ -5,33 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login — AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* page wrapper */
-    .auth-shell { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 32px 16px; }
-    /* card that matches your screenshot */
-    .auth-card {
-      width: 100%; max-width: 640px;
-      background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-      box-shadow: 0 12px 32px rgba(0,0,0,.45);
-      padding: 22px;
-    }
-    .auth-head h1 { font-size: 1.6rem; margin-bottom: 2px; }
-    .auth-head p  { color: var(--muted); margin-bottom: 14px; }
-    /* form fields */
-    .auth-form { display: grid; gap: 12px; }
-    .auth-form label { font-weight: 700; color: #eaeaea; display: block; }
-    .auth-form input {
-      margin-top: 6px; width: 100%;
-      background: #121212; border: 1px solid #2a2a2a; color: #f1f1f1;
-      padding: 10px; border-radius: 8px;
-    }
-    /* actions row like screenshot */
-    .auth-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
-    .auth-note { color: var(--muted); margin-top: 8px; text-align: left; }
-    /* error line */
-    #loginMsg { color: #ffb4b4; font-weight: 600; min-height: 1.2em; }
-    @media (max-width: 640px) { .auth-card { padding: 18px; } }
-  </style>
 </head>
 <body>
   <header class="site-header">
@@ -43,7 +16,9 @@
         <a href="about.html" class="nav-link">Why Choose Us</a>
         <a href="booking.html" class="nav-link">Booking</a>
       </nav>
-      <div data-auth></div>
+      <div data-auth>
+        <a id="loginLink" class="cta-outline" href="login.html">Login</a>
+      </div>
     </div>
   </header>
 

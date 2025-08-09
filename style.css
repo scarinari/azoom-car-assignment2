@@ -1,5 +1,5 @@
 /* ===============================
-   AZoom — Dark Sleek Theme
+   AZoom — Dark Sleek Theme (Resilient)
    =============================== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,146 +22,62 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 20px;
-}
+.container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
 
 /* ===============================
-   Header (supports both variants)
+   Header
    =============================== */
-.site-header, header {
+.site-header {
   background: #121212;
   position: sticky;
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--line);
 }
-.header-inner, header .container {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 0;
-}
-
-.brand a, header h1 {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1.1rem;
-}
+.header-inner { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+.brand a { color: #fff; text-decoration: none; font-weight: 800; font-size: 1.1rem; }
 .accent { color: var(--accent); }
 
-.main-nav, header nav {
-  margin-left: auto;
-  display: flex;
-  gap: 14px;
-  align-items: center;
+.main-nav { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+.nav-link {
+  color: #cbd3d9; text-decoration: none; padding: 6px 10px; border-radius: 8px; font-weight: 500;
 }
-.nav-link, header nav a {
-  color: #cbd3d9;
-  text-decoration: none;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-weight: 500;
-}
-.nav-link:hover, .nav-link.active,
-header nav a:hover, header nav a.active {
-  background: #181818;
-  color: var(--accent);
-}
+.nav-link:hover, .nav-link.active { background: #181818; color: var(--accent); }
 
+/* Right-side CTAs */
 .cta {
-  background: var(--accent);
-  color: #0e1113;
-  border: 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
+  background: var(--accent); color: #0e1113; border: 0; padding: 8px 12px;
+  border-radius: 8px; font-weight: 700; cursor: pointer;
+}
+.cta-outline {
+  background: transparent; color: #eaeaea; border: 1px solid #2c2c2c;
+  padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; text-decoration: none;
 }
 
 /* ===============================
-   Buttons
+   Buttons (shared)
    =============================== */
 .btn {
-  display: inline-block;
-  background: var(--accent);
-  color: #0d0f11;
-  padding: 10px 16px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
+  display: inline-block; background: var(--accent); color: #0d0f11;
+  padding: 10px 16px; border-radius: 10px; text-decoration: none; font-weight: 700; border: 0;
 }
 .btn-outline {
-  display: inline-block;
-  border: 1px solid #2c2c2c;
-  color: #eaeaea;
-  padding: 10px 16px;
-  border-radius: 10px;
-  text-decoration: none;
-}
-.btn-small {
-  display: inline-block;
-  background: var(--accent);
-  color: #0d0f11;
-  padding: 8px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-}
-.btn-small-outline {
-  background: transparent;
-  color: #eaeaea;
-  border: 1px solid #2c2c2c;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
+  display: inline-block; border: 1px solid #2c2c2c; color: #eaeaea;
+  padding: 10px 16px; border-radius: 10px; text-decoration: none; background: transparent;
 }
 
 /* ===============================
-   Hero (banner + blending text)
-   - set background on the section:
-     <section class="hero" style="background:url('img/banner.png') center/cover no-repeat;">
+   Hero (banner)
+   NOTE: index.html adds a CSS fallback background inline to survive JS failure.
    =============================== */
 .hero {
   min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   text-align: center;
-
-  /* fallback gradient if no image is set inline */
-  background: linear-gradient(180deg, #000, #161616);
-  background-size: cover;
-  background-position: center;
 }
-
-/* remove any box; blend text with image using text-shadow */
-.hero-content {
-  padding: 30px;
-  border-radius: 0;
-  background: none;
-}
-.hero-content h1, .hero-content h2 {
-  font-size: 2.6rem;
-  line-height: 1.15;
-  margin-bottom: 10px;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.6), 0 0 1px rgba(0,0,0,0.4);
-}
-.hero-content p {
-  color: #f0f0f0;
-  font-size: 1.1rem;
-  margin: 10px 0 20px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-}
-
-/* space for hero buttons on busy images */
-.hero .btn, .hero .btn-outline {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-}
+.hero .btn { box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+.hero h2 { font-size: 2.6rem; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.hero p  { color: #f0f0f0; margin-bottom: 16px; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
 
 /* ===============================
    Sections / Typography
@@ -171,247 +87,93 @@ header nav a:hover, header nav a.active {
 .section-sub { color: var(--muted); margin-bottom: 18px; }
 .muted { color: var(--muted); }
 
-/* Intro band */
-.intro { padding: 40px 0; }
-.intro .container {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-}
-.intro h3 { color: var(--accent); margin-bottom: 6px; }
-
-/* ===============================
-   Features (simple cards)
-   =============================== */
-.features { padding: 40px 0; }
-.feature-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 16px;
-}
-.feature {
+.intro .container,
+.feature,
+.form-grid,
+.panel {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 18px;
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
 }
-.feature h4 { color: var(--accent); margin-bottom: 6px; }
-
-@media (max-width: 900px) {
-  .feature-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
-}
-@media (max-width: 620px) {
-  .feature-list { grid-template-columns: 1fr; }
-}
 
 /* ===============================
-   Grid helpers (shared)
+   Features simple grid
+   =============================== */
+.features { padding: 40px 0; }
+.feature-list {
+  display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px;
+}
+.feature h4 { color: var(--accent); margin-bottom: 6px; }
+@media (max-width: 900px){ .feature-list { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .feature-list { grid-template-columns: 1fr; } }
+
+/* ===============================
+   Grid helpers
    =============================== */
 .grid { display: grid; gap: 18px; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
-.gap-24 { gap: 24px; }
-
-@media (max-width: 900px) {
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 620px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px){ .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
 /* ===============================
-   Car cards (cars.html)
+   Car cards
    =============================== */
-.car-card {
-  background: var(--panel);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  border: 1px solid var(--line);
-}
-.car-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  background: #0f0f0f;
-}
+.car-card { background: var(--panel); border-radius: 14px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,.35); border: 1px solid var(--line); }
+.car-card img { width: 100%; height: 180px; object-fit: cover; background: #0f0f0f; }
 .car-card-body { padding: 14px; }
 .price { font-weight: 800; color: #e6e6e6; margin: 8px 0; }
-.specs {
-  list-style: none;
-  color: var(--muted);
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 8px 0;
-}
+.specs { list-style: none; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; padding: 0; margin: 8px 0; }
 .card-actions { display: flex; gap: 8px; margin-top: 12px; }
 
 /* ===============================
-   Forms (booking.html)
+   Forms (booking + auth)
    =============================== */
 .form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  background: var(--panel);
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
 }
-.form-grid label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 600;
-  color: #eaeaea;
-}
+.form-grid label { display: flex; flex-direction: column; font-weight: 600; color: #eaeaea; }
 .form-grid input, .form-grid select {
-  margin-top: 6px;
-  background: #121212;
-  border: 1px solid #2a2a2a;
-  color: #f1f1f1;
-  border-radius: 8px;
-  padding: 10px;
+  margin-top: 6px; background: #121212; border: 1px solid #2a2a2a; color: #f1f1f1; border-radius: 8px; padding: 10px;
 }
-.form-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
-@media (max-width: 720px) {
-  .form-grid { grid-template-columns: 1fr; }
-}
+.form-actions { grid-column: 1 / -1; display: flex; gap: 10px; justify-content: flex-end; }
 
-/* ===============================
-   About page refinements
-   =============================== */
-.subhero {
-  background: linear-gradient(180deg, #000, #151515);
-  border-bottom: 1px solid #1f1f1f;
-}
-.subhero-inner { padding: 28px 0 20px; text-align: center; }
-.subhero h1 { font-size: 2rem; margin-bottom: 6px; }
-.subhero p { color: var(--muted); }
+@media (max-width: 720px){ .form-grid { grid-template-columns: 1fr; } }
 
-.panel {
-  background: var(--panel);
-  border: 1px solid #232323;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+/* Auth pages (login/register) */
+.auth-shell { min-height: calc(100vh - 120px); display: grid; place-items: center; padding: 32px 16px; }
+.auth-card {
+  width: 100%; max-width: 640px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.45); padding: 22px;
 }
-.eyebrow {
-  font-size: 0.9rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
+.auth-head h1 { font-size: 1.6rem; margin-bottom: 2px; }
+.auth-head p  { color: var(--muted); margin-bottom: 14px; }
+.auth-form { display: grid; gap: 12px; }
+.auth-form label { font-weight: 700; color: #eaeaea; display: block; }
+.auth-form input {
+  margin-top: 6px; width: 100%; background: #121212; border: 1px solid #2a2a2a; color: #f1f1f1; padding: 10px; border-radius: 8px;
 }
-.checklist { margin-top: 10px; padding-left: 18px; }
-.checklist li { margin: 6px 0; color: #e8e8e8; }
-
-.perk-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 14px;
-}
-.perk {
-  background: #151515;
-  border: 1px solid #222;
-  border-radius: 12px;
-  padding: 14px;
-}
-.perk-badge {
-  display: inline-block; min-width: 42px; text-align: center;
-  padding: 6px 10px; border-radius: 999px;
-  background: #0f0f0f; border: 1px solid #262626;
-  color: #eaeaea; font-weight: 800; margin-bottom: 8px;
-}
-
-.flow {
-  list-style: none; margin: 8px 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(5, minmax(160px,1fr));
-  gap: 14px; overflow-x: auto; padding-bottom: 6px;
-}
-.flow-step {
-  background: #151515; border: 1px solid #222;
-  border-radius: 12px; padding: 14px; min-width: 180px;
-}
-.flow-dot {
-  display: inline-grid; place-items: center; width: 28px; height: 28px;
-  border-radius: 50%; background: var(--accent);
-  color: #0e1113; font-weight: 900; margin-bottom: 8px;
-}
-.flow-step h4 { margin-bottom: 6px; }
-
-.branch p { margin: 6px 0 12px; }
-
-@media (max-width: 720px) {
-  .perk-grid { grid-template-columns: 1fr; }
-  .flow { grid-template-columns: repeat(5, minmax(220px,1fr)); }
-}
+.auth-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.auth-note { color: var(--muted); margin-top: 8px; text-align: left; }
+#loginMsg, #registerMsg { color: #ffb4b4; font-weight: 600; min-height: 1.2em; }
 
 /* ===============================
    Footer
    =============================== */
-.site-footer, footer {
-  background: #101010;
-  border-top: 1px solid var(--line);
-  color: #bfc6cc;
-}
-.footer-inner, footer .container {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: center;
-  padding: 16px 0;
-}
-@media (max-width: 720px) {
-  .footer-inner, footer .container { flex-direction: column; text-align: center; }
-}
+.site-footer { background: #101010; border-top: 1px solid var(--line); color: #bfc6cc; }
+.footer-inner { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 16px 0; }
+@media (max-width: 720px){ .footer-inner { flex-direction: column; text-align: center; } }
 
 /* ===============================
-   Modal
+   Modal (quick info, booking confirm)
    =============================== */
-.modal {
-  position: fixed; inset: 0;
-  display: none;
-  align-items: center; justify-content: center;
-  background: rgba(0,0,0,.55);
-  z-index: 50;
-}
+.modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.55); z-index: 50; }
 .modal[aria-hidden="false"] { display: flex; }
 .modal-body {
-  background: #161616; color: #f0f0f0;
-  padding: 20px; border-radius: 12px;
-  max-width: 520px; width: 92%;
+  background: #161616; color: #f0f0f0; padding: 20px; border-radius: 12px; max-width: 520px; width: 92%;
   position: relative; border: 1px solid #2a2a2a;
 }
-.modal-close {
-  position: absolute; right: 12px; top: 8px;
-  background: transparent; border: 0;
-  font-size: 20px; color: #fff; cursor: pointer;
-}
+.modal-close { position: absolute; right: 12px; top: 8px; background: transparent; border: 0; font-size: 20px; color: #fff; cursor: pointer; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
-
-
-/* Outline CTA used for Login button */
-.cta-outline{
-  background: transparent;
-  color: #e6f7f4;
-  border: 1px solid #2c2c2c;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-
-/* Space buttons in the auth box */
-[data-auth] { display:flex; gap:8px; align-items:center; }

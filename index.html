@@ -6,8 +6,11 @@
   <title>AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* keep hero styles; background will be set by JS once a working image is found */
-    .hero { min-height: 60vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+    /* CSS fallback so banner shows even if JS fails */
+    #hero.hero {
+      background: url('img/banner.png') center/cover no-repeat,
+                  linear-gradient(180deg,#000,#161616);
+    }
   </style>
 </head>
 <body>
@@ -20,21 +23,24 @@
         <a href="about.html" class="nav-link">Why Choose Us</a>
         <a href="booking.html" class="nav-link">Booking</a>
       </nav>
-      <div data-auth></div>
+      <div data-auth>
+        <!-- Fallback link visible before JS runs -->
+        <a id="loginLink" class="cta-outline" href="login.html">Login</a>
+      </div>
     </div>
   </header>
 
-  <!-- JS will pick the first working banner from data-hero -->
+  <!-- JS tries candidates, caches working banner -->
   <section id="hero" class="hero"
            data-hero="img/banner.png,img/Banner.png,img/banner.jpg,img/Banner.jpg">
-    <div class="container hero-content blend">
+    <div class="container">
       <h2>Drive the Future</h2>
       <p>Premium Electric Vehicles at Your Fingertips</p>
       <a href="booking.html" class="btn">Reserve Now</a>
     </div>
   </section>
 
-  <section class="intro">
+  <section class="intro section">
     <div class="container">
       <h3>Welcome to AZoom</h3>
       <p>Experience top-tier electric mobility with our sleek, sustainable fleet. Whether for a day, a week, or more — we’ve got you covered.</p>
@@ -43,11 +49,11 @@
 
   <section class="features">
     <div class="container">
-      <h3>Why Rent with AZoom?</h3>
+      <h3 class="section-title">Why Rent with AZoom?</h3>
       <div class="feature-list">
-        <div class="feature"><h4>All-Electric Fleet</h4><p>Enjoy silent rides, zero emissions, and cutting-edge technology.</p></div>
-        <div class="feature"><h4>Flexible Plans</h4><p>Daily, weekly, or monthly rentals to suit your needs.</p></div>
-        <div class="feature"><h4>Easy Returns</h4><p>Drop off at designated car parks — we’ll handle the rest.</p></div>
+        <div class="feature"><h4>All-Electric Fleet</h4><p>Silent rides, zero emissions, cutting-edge tech.</p></div>
+        <div class="feature"><h4>Flexible Plans</h4><p>Daily, weekly, or monthly rentals.</p></div>
+        <div class="feature"><h4>Easy Returns</h4><p>Drop at designated car parks — we’ll handle the rest.</p></div>
       </div>
     </div>
   </section>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Register - AZoom Car Rental</title>
+  <title>Register — AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,31 +16,47 @@
         <a href="about.html" class="nav-link">Why Choose Us</a>
         <a href="booking.html" class="nav-link">Booking</a>
       </nav>
-      <div data-auth></div>
+      <div data-auth>
+        <a id="loginLink" class="cta-outline" href="login.html">Login</a>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section class="section">
-      <h1 class="section-title">Create an Account</h1>
-      <form id="registerForm" class="form-card">
-        <label for="r_name">Full Name</label>
-        <input type="text" id="r_name" name="name" placeholder="Your full name" required />
+  <main class="container auth-shell">
+    <section class="auth-card">
+      <div class="auth-head">
+        <h1>Create an Account</h1>
+        <p>Your account is stored locally in your browser for demo purposes.</p>
+      </div>
 
-        <label for="r_email">Email Address</label>
-        <input type="email" id="r_email" name="email" placeholder="you@example.com" required />
+      <form id="registerForm" class="auth-form">
+        <div>
+          <label for="r_name">Full Name</label>
+          <input type="text" id="r_name" name="name" placeholder="Your full name" required />
+        </div>
 
-        <label for="r_password">Password</label>
-        <input type="password" id="r_password" name="password" placeholder="At least 6 characters" required />
+        <div>
+          <label for="r_email">Email Address</label>
+          <input type="email" id="r_email" name="email" placeholder="you@example.com" required />
+        </div>
 
-        <label for="r_confirm">Confirm Password</label>
-        <input type="password" id="r_confirm" name="confirm" placeholder="Re-type your password" required />
+        <div>
+          <label for="r_password">Password</label>
+          <input type="password" id="r_password" name="password" placeholder="At least 6 characters" required />
+        </div>
 
-        <div id="registerMsg" style="color:red; margin-top:5px;"></div>
+        <div>
+          <label for="r_confirm">Confirm Password</label>
+          <input type="password" id="r_confirm" name="confirm" placeholder="Re-type your password" required />
+        </div>
 
-        <button type="submit" class="btn">Register</button>
+        <div id="registerMsg"></div>
+
+        <div class="auth-actions">
+          <a class="btn-outline" href="login.html">Back</a>
+          <button type="submit" class="btn">Register</button>
+        </div>
       </form>
-      <p style="margin-top: 10px;">Already have an account? <a href="login.html">Login here</a>.</p>
     </section>
   </main>
 
