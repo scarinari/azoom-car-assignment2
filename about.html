@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand"><a href="index.html">AZoom <span class="accent">Car Rental</span></a></div>
@@ -17,40 +18,98 @@
         <a href="booking.html" class="nav-link">Booking</a>
       </nav>
       <div data-auth>
+        <!-- Fallback shown before JS enhances -->
         <a id="loginLink" class="cta-outline" href="login.html">Login</a>
       </div>
     </div>
   </header>
 
   <main class="container">
+    <!-- Page title -->
     <section class="section">
       <h1 class="section-title">Why AZoom?</h1>
-      <p class="section-sub">We make electric mobility simple — clear pricing, easy booking, and convenient pickup & returns.</p>
+      <p class="section-sub">Simple, sustainable mobility — clear pricing, easy booking, and convenient pickup & returns.</p>
 
+      <!-- Mission + Highlights -->
       <div class="grid grid-2">
         <article class="panel">
-          <h2 class="section-title">Our mission</h2>
-          <p class="muted">Promote sustainable urban mobility by making EV rentals accessible and hassle-free. We focus on a frictionless experience across booking, pickup, and returns.</p>
-          <ul class="specs" style="margin-top:8px;">
+          <h2 class="section-title" style="margin-bottom:6px;">Our Mission</h2>
+          <p class="muted">
+            We make electric car rentals accessible and hassle-free. From browsing to booking, pickup to return,
+            everything is designed to be fast, transparent, and user-friendly.
+          </p>
+          <ul class="specs" style="margin-top:10px;">
             <li>Transparent pricing & clear policies</li>
             <li>Modern EVs with reliable range</li>
-            <li>Secure card validation (front-end demo)</li>
+            <li>Front-end demo payments with card validation</li>
           </ul>
         </article>
 
         <article class="panel">
-          <h2 class="section-title">What you get</h2>
+          <h2 class="section-title" style="margin-bottom:6px;">What You Get</h2>
           <div class="grid grid-2">
-            <div class="feature"><h4>24/7 Support</h4><p class="muted">Helpdesk for roadside and booking queries anytime.</p></div>
-            <div class="feature"><h4>All-electric fleet</h4><p class="muted">Comfortable, quiet, and efficient vehicles.</p></div>
-            <div class="feature"><h4>Flexible terms</h4><p class="muted">Daily, weekly, or monthly — you choose.</p></div>
-            <div class="feature"><h4>Easy returns</h4><p class="muted">Drop at designated car parks, inspected on the spot.</p></div>
+            <div class="feature">
+              <h4>All-electric fleet</h4>
+              <p class="muted">Comfortable, quiet, and efficient vehicles with fast charging support.</p>
+            </div>
+            <div class="feature">
+              <h4>Flexible terms</h4>
+              <p class="muted">Daily, weekly, or monthly — pick what suits your trip best.</p>
+            </div>
+            <div class="feature">
+              <h4>Easy returns</h4>
+              <p class="muted">Return at designated car parks with on-the-spot inspection.</p>
+            </div>
+            <div class="feature">
+              <h4>Support</h4>
+              <p class="muted">Help with booking questions and roadside assistance guidance.</p>
+            </div>
           </div>
         </article>
       </div>
     </section>
+
+    <!-- How it works -->
+    <section class="section">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">A straightforward 5-step flow from reservation to final billing.</p>
+
+      <div class="panel">
+        <ol style="padding-left: 18px;">
+          <li style="margin:8px 0;"><strong>Reserve online</strong> — choose your car, period & branch. (Front-end card validation)</li>
+          <li style="margin:8px 0;"><strong>Pick up</strong> — bring your license and booking ID to the selected branch.</li>
+          <li style="margin:8px 0;"><strong>Enjoy the ride</strong> — drive the EV with confidence; support is available.</li>
+          <li style="margin:8px 0;"><strong>Return & inspect</strong> — staff check the vehicle at the designated car park.</li>
+          <li style="margin:8px 0;"><strong>Final bill</strong> — rental plus any damages are finalized at the counter.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQs (native details/summary = no extra JS) -->
+    <section class="section">
+      <h2 class="section-title">Frequently asked questions</h2>
+      <div class="panel" style="display:grid; gap:10px;">
+        <details>
+          <summary><strong>Do I need an account to reserve?</strong></summary>
+          <p class="muted">Yes. Create an account (stored locally for demo) and log in to proceed to Booking.</p>
+        </details>
+        <details>
+          <summary><strong>Is payment real?</strong></summary>
+          <p class="muted">No. This is a front-end demo with card number validation only (no backend processing).</p>
+        </details>
+        <details>
+          <summary><strong>What happens to my data?</strong></summary>
+          <p class="muted">Accounts are stored in your browser’s <em>localStorage</em>; sessions use <em>sessionStorage</em>. Clear your browser data to remove them.</p>
+        </details>
+        <details>
+          <summary><strong>Where can I pick up the car?</strong></summary>
+          <p class="muted">You can choose between the Central Branch or East Branch during booking.</p>
+        </details>
+      </div>
+    </section>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>© 2025 AZoom Car Rental</div>
