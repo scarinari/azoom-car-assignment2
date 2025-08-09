@@ -400,4 +400,18 @@ header nav a:hover, header nav a.active {
 }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
 
-.cta-outline{background:transparent;color:#e6f7f4;border:1px solid #2c2c2c;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+
+/* Outline CTA used for Login button */
+.cta-outline{
+  background: transparent;
+  color: #e6f7f4;
+  border: 1px solid #2c2c2c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* Space buttons in the auth box */
+[data-auth] { display:flex; gap:8px; align-items:center; }

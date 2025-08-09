@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AZoom Car Rental — Register</title>
+  <title>Register - AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -22,17 +22,25 @@
 
   <main class="container">
     <section class="section">
-      <h1 class="section-title">Create your account</h1>
-      <p class="section-sub">Accounts are stored in your browser (localStorage). This is a backend-free demo.</p>
+      <h1 class="section-title">Create an Account</h1>
+      <form id="registerForm" class="form-card">
+        <label for="r_name">Full Name</label>
+        <input type="text" id="r_name" name="name" placeholder="Your full name" required />
 
-      <form id="registerForm" class="form-grid">
-        <label>Full name<input type="text" id="r_name" required placeholder="Jane Doe"></label>
-        <label>Email<input type="email" id="r_email" required placeholder="you@example.com"></label>
-        <label>Password<input type="password" id="r_password" required></label>
-        <label>Confirm password<input type="password" id="r_confirm" required></label>
-        <div class="form-actions"><button type="submit" class="btn">Create account</button><a class="btn-outline" href="login.html">Have an account? Login</a></div>
-        <div id="registerMsg" style="grid-column:1/-1;color:#ffb4b4;font-weight:600;min-height:1.2em"></div>
+        <label for="r_email">Email Address</label>
+        <input type="email" id="r_email" name="email" placeholder="you@example.com" required />
+
+        <label for="r_password">Password</label>
+        <input type="password" id="r_password" name="password" placeholder="At least 6 characters" required />
+
+        <label for="r_confirm">Confirm Password</label>
+        <input type="password" id="r_confirm" name="confirm" placeholder="Re-type your password" required />
+
+        <div id="registerMsg" style="color:red; margin-top:5px;"></div>
+
+        <button type="submit" class="btn">Register</button>
       </form>
+      <p style="margin-top: 10px;">Already have an account? <a href="login.html">Login here</a>.</p>
     </section>
   </main>
 

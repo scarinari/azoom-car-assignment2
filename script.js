@@ -1,94 +1,73 @@
-/* AZoom Frontend: auth, header UI, booking guard, hero banner, car image fallbacks (no backend) */
+/* AZoom – Simple array-based auth with registration (no backend)
+   + Safe header rendering (only [data-auth])
+   + Hero banner fallback + cache so it never disappears
+   + Booking guard + confirmation modal
+*/
 (function () {
-  const KEY_USERS = 'az_users';
-  const KEY_SESSION = 'az_session';
+  const KEY_USERS = 'az_users_arr';
+  const KEY_SESSION = 'az_simple_session';
   const KEY_HERO = 'az_hero_url';
 
-  // -------- Tiny SHA-1 (demo only; not for production) --------
-  function rotl(n, s) { return (n << s) | (n >>> (32 - s)); }
-  function sha1(str) {
-    let H0 = 0x67452301, H1 = 0xEFCDAB89, H2 = 0x98BADCFE, H3 = 0x10325476, H4 = 0xC3D2E1F0;
-    const ml = str.length * 8, words = [];
-    for (let i = 0; i < str.length; i++) words[i >> 2] |= str.charCodeAt(i) << (24 - (i & 3) * 8);
-    words[ml >> 5] |= 0x80 << (24 - ml % 32);
-    words[((ml + 64 >> 9) << 4) + 15] = ml;
-    for (let i = 0; i < words.length; i += 16) {
-      const w = words.slice(i, i + 16);
-      for (let j = 16; j < 80; j++) w[j] = rotl((w[j - 3] ^ w[j - 8] ^ w[j - 14] ^ w[j - 16]) >>> 0, 1) >>> 0;
-      let a = H0, b = H1, c = H2, d = H3, e = H4;
-      for (let j = 0; j < 80; j++) {
-        const s = (j / 20) | 0;
-        const f = [(b & c) | (~b & d), b ^ c ^ d, (b & c) | (b & d) | (c & d), b ^ c ^ d][s];
-        const k = [0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6][s];
-        const t = ((rotl(a, 5) + f + e + k + w[j]) | 0) >>> 0;
-        e = d; d = c; c = rotl(b, 30) >>> 0; b = a; a = t;
-      }
-      H0 = (H0 + a) | 0; H1 = (H1 + b) | 0; H2 = (H2 + c) | 0; H3 = (H3 + d) | 0; H4 = (H4 + e) | 0;
-    }
-    function tohex(i) { let h = ''; for (let s = 28; s >= 0; s -= 4) h += ((i >>> s) & 0xf).toString(16); return h; }
-    return [H0, H1, H2, H3, H4].map(tohex).join('');
+  // ----- User store (array persisted in localStorage) -----
+  function loadUsers() {
+    try { const arr = JSON.parse(localStorage.getItem(KEY_USERS) || '[]'); return Array.isArray(arr) ? arr : []; }
+    catch { return []; }
   }
+  function saveUsers(arr) { localStorage.setItem(KEY_USERS, JSON.stringify(arr || [])); }
 
-  // -------- Storage helpers --------
-  function safeParse(json, fallback) { try { return JSON.parse(json); } catch { return fallback; } }
-  function loadUsers() { const raw = localStorage.getItem(KEY_USERS); const arr = safeParse(raw, []); return Array.isArray(arr) ? arr : []; }
-  function saveUsers(list) { localStorage.setItem(KEY_USERS, JSON.stringify(list)); }
-  function currentUser() { return safeParse(sessionStorage.getItem(KEY_SESSION), null); }
-  function setSession(user) {
-    sessionStorage.setItem(KEY_SESSION, JSON.stringify({ email: user.email, name: user.name || user.email, ts: Date.now() }));
-  }
+  // ----- Session -----
+  function currentUser() { try { return JSON.parse(sessionStorage.getItem(KEY_SESSION)); } catch { return null; } }
+  function setSession(user) { sessionStorage.setItem(KEY_SESSION, JSON.stringify({ email: user.email, name: user.name })); }
   function clearSession() { sessionStorage.removeItem(KEY_SESSION); }
 
-  // -------- Auth core --------
-  function login(email, password) {
-    const e = (email || '').trim().toLowerCase();
-    const p = (password || '');
-    const users = loadUsers();
-    const u = users.find(x => x.email === e && x.passwordHash === sha1(p));
-    if (!u) throw new Error('Invalid email or password');
-    setSession(u);
-    return u;
-  }
-  function register(name, email, password) {
+  // ----- Auth core -----
+  function registerUser(name, email, password) {
     const n = (name || '').trim();
     const e = (email || '').trim().toLowerCase();
-    const p = (password || '');
-    if (!n || !e || !p) throw new Error('All fields are required');
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) throw new Error('Enter a valid email');
-    if (p.length < 6) throw new Error('Password must be at least 6 characters');
+    const p = (password || '').trim();
+    if (!n || !e || !p) throw new Error('All fields are required.');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) throw new Error('Enter a valid email address.');
+    if (p.length < 6) throw new Error('Password must be at least 6 characters.');
+
     const users = loadUsers();
-    if (users.find(x => x.email === e)) throw new Error('Email already registered');
-    users.push({ name: n, email: e, passwordHash: sha1(p) });
+    if (users.some(u => u.email.toLowerCase() === e)) throw new Error('Email is already registered.');
+    users.push({ name: n, email: e, password: p }); // plain for demo only
     saveUsers(users);
-    return true;
+    return { name: n, email: e };
+  }
+  function loginWith(email, password) {
+    const e = (email || '').trim().toLowerCase();
+    const p = (password || '').trim();
+    const u = loadUsers().find(x => x.email.toLowerCase() === e && x.password === p);
+    if (!u) throw new Error('Invalid email or password.');
+    return { name: u.name, email: u.email };
   }
 
-  // -------- Header UI (auth box only; never touch hero) --------
+  // ----- Header UI (touch only [data-auth]) -----
   function ensureAuthBox() {
     const header = document.querySelector('.header-inner') || document.querySelector('header .container');
     if (!header) return null;
     let box = header.querySelector('[data-auth]');
-    if (!box) { box = document.createElement('div'); box.setAttribute('data-auth',''); header.appendChild(box); }
-    Object.assign(box.style, { display: 'flex', gap: '8px', alignItems: 'center' });
+    if (!box) { box = document.createElement('div'); box.setAttribute('data-auth', ''); header.appendChild(box); }
+    Object.assign(box.style, { display: 'flex', gap: '8px', alignItems: 'center', marginLeft: '8px' });
     return box;
   }
   function renderAuthUI() {
-    const u = currentUser();
-    const box = ensureAuthBox();
-    if (!box) return;
+    const box = ensureAuthBox(); if (!box) return;
     box.innerHTML = '';
+    const u = currentUser();
     if (u) {
       const who = document.createElement('span'); who.textContent = 'Hi, ' + (u.name || u.email); who.style.color = '#cbd3d9';
-      const reserve = document.createElement('button'); reserve.className = 'cta'; reserve.textContent = 'Reserve'; reserve.onclick = () => location.href='booking.html';
+      const reserve = document.createElement('button'); reserve.className = 'cta'; reserve.textContent = 'Reserve'; reserve.onclick = () => location.href = 'booking.html';
       const logout = document.createElement('button'); logout.className = 'cta-outline'; logout.textContent = 'Logout'; logout.onclick = () => { clearSession(); location.reload(); };
-      box.appendChild(who); box.appendChild(reserve); box.appendChild(logout);
+      box.append(who, reserve, logout);
     } else {
-      const loginBtn = document.createElement('button'); loginBtn.className='cta-outline'; loginBtn.textContent='Login'; loginBtn.onclick=()=>location.href='login.html';
-      box.appendChild(loginBtn);
+      const loginBtn = document.createElement('button'); loginBtn.className = 'cta-outline'; loginBtn.textContent = 'Login'; loginBtn.onclick = () => location.href = 'login.html';
+      box.append(loginBtn);
     }
   }
 
-  // -------- Booking protection --------
+  // ----- Booking guard -----
   function guardBooking() {
     if (/booking\.html(?:$|\?)/.test(location.pathname) && !currentUser()) {
       const nxt = location.pathname + location.search;
@@ -96,103 +75,69 @@
     }
   }
 
-  // -------- Booking handler (if present) --------
+  // ----- Booking submit (demo) -----
   function luhnOk(num) {
     const s = (num || '').replace(/\D/g, ''); if (!s) return false;
     let sum = 0, alt = false;
     for (let i = s.length - 1; i >= 0; i--) { let n = +s[i]; if (alt) { n *= 2; if (n > 9) n -= 9; } sum += n; alt = !alt; }
     return sum % 10 === 0;
   }
-  window.handleBooking = function (e) {
-    e.preventDefault();
-    const u = currentUser();
-    if (!u) { location.href = 'login.html?next=' + encodeURIComponent('booking.html'); return false; }
-
-    const name = document.getElementById('name')?.value?.trim();
-    const email = document.getElementById('email')?.value?.trim();
-    const phone = document.getElementById('phone')?.value?.trim();
+  window.handleBooking = function (ev) {
+    ev.preventDefault();
+    if (!currentUser()) { location.href = 'login.html?next=' + encodeURIComponent('booking.html'); return false; }
     const car = document.getElementById('car')?.value;
     const duration = document.getElementById('duration')?.value;
     const branch = document.getElementById('branch')?.value;
+    const email = document.getElementById('email')?.value;
     const cc = document.getElementById('creditCard')?.value;
-
     if (!luhnOk(cc)) { alert('Please enter a valid credit card number.'); return false; }
-
     const id = 'B' + Math.random().toString(36).slice(2, 8).toUpperCase();
-    const payload = { id, user: u.email, name, email, phone, car, duration, branch, ts: Date.now() };
-    const all = safeParse(localStorage.getItem('az_bookings'), []); all.push(payload);
-    localStorage.setItem('az_bookings', JSON.stringify(all));
-
     const txt = document.getElementById('confirmText');
-    if (txt) txt.textContent = `Reservation ${id} received for ${car} (${duration}), pick-up at ${branch}. A confirmation has been simulated for ${email}.`;
-    const modal = document.getElementById('confirmModal');
-    if (modal) modal.setAttribute('aria-hidden', 'false');
+    if (txt) txt.textContent = `Reservation ${id} received for ${car} (${duration}) at ${branch}. Confirmation simulated for ${email}.`;
+    document.getElementById('confirmModal')?.setAttribute('aria-hidden', 'false');
     return false;
   };
-  window.closeConfirm = function () {
-    const modal = document.getElementById('confirmModal');
-    if (modal) modal.setAttribute('aria-hidden', 'true');
-  };
+  window.closeConfirm = function () { document.getElementById('confirmModal')?.setAttribute('aria-hidden', 'true'); };
 
-  // -------- Login/Register auto-bind (if those pages exist) --------
-  function bindFormsIfPresent() {
-    const rf = document.getElementById('registerForm');
-    if (rf) {
-      rf.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('r_name')?.value || '';
-        const email = document.getElementById('r_email')?.value || '';
-        const pw = document.getElementById('r_password')?.value || '';
-        const cf = document.getElementById('r_confirm')?.value || '';
-        const msg = document.getElementById('registerMsg');
-        if (msg) msg.textContent = '';
-        try {
-          if (pw !== cf) throw new Error('Passwords do not match');
-          register(name, email, pw);
-          login(email, pw);                  // auto-login after register
-          location.href = 'index.html';
-        } catch (err) {
-          if (msg) msg.textContent = err.message || 'Registration failed';
-          else alert(err.message || 'Registration failed');
-        }
-      });
-    }
-
-    const lf = document.getElementById('loginForm');
-    if (lf) {
-      lf.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = lf.querySelector('[name="email"]')?.value || '';
-        const password = lf.querySelector('[name="password"]')?.value || '';
-        const msg = document.getElementById('loginMsg'); if (msg) msg.textContent = '';
-        try {
-          login(email, password);
-          const next = new URLSearchParams(location.search).get('next') || 'index.html';
-          location.href = next;
-        } catch (err) {
-          if (msg) msg.textContent = err.message || 'Login failed';
-          else alert(err.message || 'Login failed');
-        }
-      });
-    }
+  // ----- Forms bind (if present) -----
+  function bindLoginForm() {
+    const lf = document.getElementById('loginForm'); if (!lf) return;
+    lf.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = lf.querySelector('[name="email"]')?.value || '';
+      const password = lf.querySelector('[name="password"]')?.value || '';
+      const msg = document.getElementById('loginMsg'); if (msg) msg.textContent = '';
+      try {
+        const u = loginWith(email, password);
+        setSession(u);
+        const next = new URLSearchParams(location.search).get('next') || 'index.html';
+        location.href = next;
+      } catch (err) {
+        if (msg) msg.textContent = err.message || 'Login failed'; else alert(err.message || 'Login failed');
+      }
+    });
+  }
+  function bindRegisterForm() {
+    const rf = document.getElementById('registerForm'); if (!rf) return;
+    rf.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('r_name')?.value || '';
+      const email = document.getElementById('r_email')?.value || '';
+      const pw = document.getElementById('r_password')?.value || '';
+      const cf = document.getElementById('r_confirm')?.value || '';
+      const msg = document.getElementById('registerMsg'); if (msg) msg.textContent = '';
+      try {
+        if (pw !== cf) throw new Error('Passwords do not match.');
+        const u = registerUser(name, email, pw);
+        setSession(u); // auto-login
+        location.href = 'index.html';
+      } catch (err) {
+        if (msg) msg.textContent = err.message || 'Registration failed'; else alert(err.message || 'Registration failed');
+      }
+    });
   }
 
-  // -------- Quick Info modal (used on cars.html) --------
-  window.openQuickInfo = function (title, text) {
-    const m = document.getElementById('quickInfo');
-    if (!m) return;
-    const t = document.getElementById('quickInfoTitle');
-    const p = document.getElementById('quickInfoText');
-    if (t) t.textContent = title || '';
-    if (p) p.textContent = text || '';
-    m.setAttribute('aria-hidden', 'false');
-  };
-  window.closeQuickInfo = function () {
-    const m = document.getElementById('quickInfo');
-    if (m) m.setAttribute('aria-hidden', 'true');
-  };
-
-  // -------- Image helpers: hero + car fallbacks (GitHub Pages case/extension issues) --------
+  // ===== HERO BANNER: fallback + cache so it persists across login/refresh =====
   function tryImagesSequentially(urls, onFound, onFail) {
     let i = 0;
     const testNext = () => {
@@ -205,20 +150,14 @@
     };
     testNext();
   }
-
-  // Hero banner: cache & reapply so it never disappears on login/redirect
   function applyCachedHero() {
+    const hero = document.getElementById('hero'); if (!hero) return;
     const cached = localStorage.getItem(KEY_HERO);
-    const hero = document.getElementById('hero');
-    if (hero && cached) {
-      hero.style.background = `url('${cached}') center/cover no-repeat`;
-    }
+    if (cached) hero.style.background = `url('${cached}') center/cover no-repeat`;
   }
   function initHeroImageFallback() {
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    const raw = hero.getAttribute('data-hero');
-    if (!raw) return;
+    const hero = document.getElementById('hero'); if (!hero) return;
+    const raw = hero.getAttribute('data-hero'); if (!raw) return;
     const candidates = raw.split(',').map(s => s.trim()).filter(Boolean);
     tryImagesSequentially(candidates, (ok) => {
       hero.style.background = `url('${ok}') center/cover no-repeat`;
@@ -226,35 +165,17 @@
     });
   }
 
-  // Cars page: set <img> src by trying filename variants until one works
-  function initCarImagesFallback() {
-    document.querySelectorAll('img[data-candidates]').forEach(imgEl => {
-      const raw = imgEl.getAttribute('data-candidates') || '';
-      const candidates = raw.split(',').map(s => s.trim()).filter(Boolean);
-      if (!candidates.length) return;
-      tryImagesSequentially(candidates, (ok) => {
-        imgEl.src = ok;
-      }, () => {
-        // fallback placeholder if nothing matched
-        imgEl.alt = (imgEl.alt || 'Image') + ' (image missing)';
-        imgEl.style.background = '#111';
-        imgEl.style.minHeight = '160px';
-        imgEl.style.display = 'block';
-      });
-    });
-  }
+  // ----- Public (optional) -----
+  window.AZAuth = { currentUser, clearSession, registerUser, loginWith, renderAuthUI };
 
-  // -------- Public API (optional) --------
-  window.AZAuth = { login, register, currentUser, clearSession, renderAuthUI };
-
-  // -------- Boot --------
+  // ----- Boot -----
   function boot() {
-    applyCachedHero();        // show banner immediately from cache (prevents flicker/disappear)
-    renderAuthUI();           // draw header actions
-    bindFormsIfPresent();     // wire login/register if present
-    guardBooking();           // protect booking page
-    initHeroImageFallback();  // resolve hero if not cached or changed
-    initCarImagesFallback();  // resolve cars images on cars.html
+    applyCachedHero();        // show cached banner immediately
+    renderAuthUI();           // only updates [data-auth]
+    bindLoginForm();
+    bindRegisterForm();
+    guardBooking();
+    initHeroImageFallback();  // resolve banner & cache it (in case cache was empty)
   }
 
   document.addEventListener('DOMContentLoaded', boot);

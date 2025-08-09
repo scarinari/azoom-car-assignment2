@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AZoom Car Rental — Login</title>
+  <title>Login - AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -22,14 +22,19 @@
 
   <main class="container">
     <section class="section">
-      <h1 class="section-title">Sign in</h1>
-      <p class="section-sub">Use the account you registered on this browser.</p>
-      <form id="loginForm" class="form-grid">
-        <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
-        <label>Password<input type="password" name="password" required></label>
-        <div class="form-actions"><button type="submit" class="btn">Login</button><a class="btn-outline" href="register.html">Create an account</a></div>
-        <div id="loginMsg" style="grid-column:1/-1;color:#ffb4b4;font-weight:600;min-height:1.2em"></div>
+      <h1 class="section-title">Login to Your Account</h1>
+      <form id="loginForm" class="form-card">
+        <label for="l_email">Email Address</label>
+        <input type="email" id="l_email" name="email" placeholder="you@example.com" required />
+
+        <label for="l_password">Password</label>
+        <input type="password" id="l_password" name="password" placeholder="Your password" required />
+
+        <div id="loginMsg" style="color:red; margin-top:5px;"></div>
+
+        <button type="submit" class="btn">Login</button>
       </form>
+      <p style="margin-top: 10px;">Don't have an account? <a href="register.html">Register here</a>.</p>
     </section>
   </main>
 
