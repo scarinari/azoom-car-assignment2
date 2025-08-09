@@ -3,8 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login - AZoom Car Rental</title>
+  <title>Login — AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* match the register form visual style */
+    .auth-wrap { display: grid; place-items: center; padding: 40px 0; }
+    .form-card {
+      width: 100%; max-width: 520px;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      display: grid; gap: 10px;
+    }
+    .form-card label { font-weight: 600; color: #eaeaea; }
+    .form-card input {
+      margin-top: 6px; background: #121212; border: 1px solid #2a2a2a;
+      color: #f1f1f1; border-radius: 8px; padding: 10px;
+      width: 100%;
+    }
+    .form-card .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+    .hint { color: var(--muted); font-size: .95rem; margin-top: 10px; text-align: center; }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -20,21 +39,33 @@
     </div>
   </header>
 
-  <main class="container">
-    <section class="section">
-      <h1 class="section-title">Login to Your Account</h1>
-      <form id="loginForm" class="form-card">
-        <label for="l_email">Email Address</label>
-        <input type="email" id="l_email" name="email" placeholder="you@example.com" required />
+  <main class="container auth-wrap">
+    <section class="form-card">
+      <div>
+        <h1 class="section-title" style="margin-bottom:2px;">Sign in</h1>
+        <p class="section-sub">Welcome back. Enter your details to continue.</p>
+      </div>
 
-        <label for="l_password">Password</label>
-        <input type="password" id="l_password" name="password" placeholder="Your password" required />
+      <form id="loginForm">
+        <label for="l_email">Email address
+          <input type="email" id="l_email" name="email" placeholder="you@example.com" required />
+        </label>
 
-        <div id="loginMsg" style="color:red; margin-top:5px;"></div>
+        <label for="l_password">Password
+          <input type="password" id="l_password" name="password" placeholder="Your password" required />
+        </label>
 
-        <button type="submit" class="btn">Login</button>
+        <div id="loginMsg" style="color:#ffb4b4;font-weight:600;min-height:1.2em;"></div>
+
+        <div class="actions">
+          <a class="btn-outline" href="index.html">Cancel</a>
+          <button type="submit" class="btn">Login</button>
+        </div>
       </form>
-      <p style="margin-top: 10px;">Don't have an account? <a href="register.html">Register here</a>.</p>
+
+      <p class="hint">
+        New here? <a href="register.html">Create an account</a>.
+      </p>
     </section>
   </main>
 
