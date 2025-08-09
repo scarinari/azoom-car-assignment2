@@ -1,4 +1,4 @@
-/* AZoom – Resilient front-end auth + hero banner (no backend)
+/* AZoom — Resilient front-end auth + hero banner (no backend)
    - Users: localStorage array
    - Session: sessionStorage
    - Register + Login + Logout
@@ -31,17 +31,20 @@
     users.push({name:n,email:e,password:p}); saveUsers(users);
     return {name:n,email:e};
   }
-  function loginWith(email,password){
+
+  // >>> Improved messages here <<<
+  function loginWith(email, password){
     const e=(email||'').trim().toLowerCase(), p=(password||'').trim();
-    const u=loadUsers().find(x=>x.email.toLowerCase()===e && x.password===p);
-    if(!u) throw new Error('Invalid email or password.');
-    return {name:u.name, email:u.email};
+    const users = loadUsers();
+    const u = users.find(x => x.email.toLowerCase() === e);
+    if (!u) throw new Error('This email is not registered. Please sign up first.');
+    if (u.password !== p) throw new Error('Incorrect password. Please try again.');
+    return { name: u.name, email: u.email };
   }
 
   // ----- Header UI (progressive enhancement) -----
   function renderAuthUI(){
     const box = document.querySelector('[data-auth]'); if(!box) return;
-    // Hide fallback link (shown in HTML for no-JS browsers)
     const fallback = box.querySelector('#loginLink'); if(fallback) fallback.style.display='none';
     box.innerHTML = '';
     const u = currentUser();
@@ -143,7 +146,7 @@
   }
 
   function boot(){
-    applyCachedHero();  // paint fast if cached
+    applyCachedHero();
     renderAuthUI();
     bindLoginForm();
     bindRegisterForm();
