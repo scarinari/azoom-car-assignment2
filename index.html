@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AZoom Car Rental</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* keep hero styles; background will be set by JS once a working image is found */
+    .hero { min-height: 60vh; display:flex; align-items:center; justify-content:center; text-align:center; }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -20,7 +24,9 @@
     </div>
   </header>
 
-  <section class="hero" style="background: url('img/banner.png') center/cover no-repeat;">
+  <!-- JS will pick the first working banner from data-hero -->
+  <section id="hero" class="hero"
+           data-hero="img/banner.png,img/Banner.png,img/banner.jpg,img/Banner.jpg">
     <div class="container hero-content blend">
       <h2>Drive the Future</h2>
       <p>Premium Electric Vehicles at Your Fingertips</p>

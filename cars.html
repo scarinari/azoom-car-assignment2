@@ -24,17 +24,102 @@
     <section class="section">
       <h1 class="section-title">Our Electric Fleet</h1>
       <p class="section-sub">Choose from our range of six fully electric cars, perfect for all needs and budgets.</p>
+
       <div class="grid grid-3 car-list">
-        <article class="car-card"><img src="img/tesla_model3.jpg" alt="Tesla Model 3"><div class="car-card-body"><h3>Tesla Model 3</h3><p class="price">From $120/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Tesla%20Model%203">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Tesla Model 3','Premium sedan with long range.')">Info</button></div></div></article>
-        <article class="car-card"><img src="img/nissan_leaf.jpg" alt="Nissan Leaf"><div class="car-card-body"><h3>Nissan Leaf</h3><p class="price">From $90/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~240 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Nissan%20Leaf">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Nissan Leaf','Compact and efficient city EV.')">Info</button></div></div></article>
-        <article class="car-card"><img src="img/hyundai_ioniq.jpg" alt="Hyundai Ioniq"><div class="car-card-body"><h3>Hyundai Ioniq</h3><p class="price">From $100/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~300 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Hyundai%20Ioniq">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Hyundai Ioniq','Comfortable family EV.')">Info</button></div></div></article>
-        <article class="car-card"><img src="img/bmw_i3.jpg" alt="BMW i3"><div class="car-card-body"><h3>BMW i3</h3><p class="price">From $110/day</p><ul class="specs"><li>Seats: 4</li><li>Range: ~260 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=BMW%20i3">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('BMW i3','Stylish compact with premium feel.')">Info</button></div></div></article>
-        <article class="car-card"><img src="img/audi_e_tron.jpg" alt="Audi e-tron"><div class="car-card-body"><h3>Audi e-tron</h3><p class="price">From $150/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Audi%20e%2Dtron">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Audi e-tron','Luxury SUV with smooth drive.')">Info</button></div></div></article>
-        <article class="car-card"><img src="img/kia_ev6.jpg" alt="Kia EV6"><div class="car-card-body"><h3>Kia EV6</h3><p class="price">From $105/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~310 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Kia%20EV6">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Kia EV6','Sporty crossover with fast charging.')">Info</button></div></div></article>
+        <!-- Tesla -->
+        <article class="car-card">
+          <img alt="Tesla Model 3"
+               data-candidates="img/tesla_model3.jpg,img/tesla_model3.jpeg,img/tesla_model3.png,img/Tesla_Model3.jpg,img/Tesla_Model3.jpeg,img/Tesla_Model3.png">
+          <div class="car-card-body">
+            <h3>Tesla Model 3</h3>
+            <p class="price">From $120/day</p>
+            <ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=Tesla%20Model%203">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('Tesla Model 3','Premium sedan with long range.')">Info</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Leaf -->
+        <article class="car-card">
+          <img alt="Nissan Leaf"
+               data-candidates="img/nissan_leaf.jpg,img/nissan_leaf.jpeg,img/nissan_leaf.png,img/Nissan_Leaf.jpg,img/Nissan_Leaf.jpeg,img/Nissan_Leaf.png">
+          <div class="car-card-body">
+            <h3>Nissan Leaf</h3>
+            <p class="price">From $90/day</p>
+            <ul class="specs"><li>Seats: 5</li><li>Range: ~240 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=Nissan%20Leaf">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('Nissan Leaf','Compact and efficient city EV.')">Info</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Ioniq -->
+        <article class="car-card">
+          <img alt="Hyundai Ioniq"
+               data-candidates="img/hyundai_ioniq.jpg,img/hyundai_ioniq.jpeg,img/hyundai_ioniq.png,img/Hyundai_Ioniq.jpg,img/Hyundai_Ioniq.jpeg,img/Hyundai_Ioniq.png">
+          <div class="car-card-body">
+            <h3>Hyundai Ioniq</h3>
+            <p class="price">From $100/day</p>
+            <ul class="specs"><li>Seats: 5</li><li>Range: ~300 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=Hyundai%20Ioniq">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('Hyundai Ioniq','Comfortable family EV.')">Info</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- BMW i3 -->
+        <article class="car-card">
+          <img alt="BMW i3"
+               data-candidates="img/bmw_i3.jpg,img/bmw_i3.jpeg,img/bmw_i3.png,img/BMW_i3.jpg,img/BMW_i3.jpeg,img/BMW_i3.png">
+          <div class="car-card-body">
+            <h3>BMW i3</h3>
+            <p class="price">From $110/day</p>
+            <ul class="specs"><li>Seats: 4</li><li>Range: ~260 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=BMW%20i3">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('BMW i3','Stylish compact with premium feel.')">Info</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Audi e-tron -->
+        <article class="car-card">
+          <img alt="Audi e-tron"
+               data-candidates="img/audi_e_tron.jpg,img/audi_e_tron.jpeg,img/audi_e_tron.png,img/Audi_e_tron.jpg,img/Audi_e_tron.jpeg,img/Audi_e_tron.png">
+          <div class="car-card-body">
+            <h3>Audi e-tron</h3>
+            <p class="price">From $150/day</p>
+            <ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=Audi%20e%2Dtron">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('Audi e-tron','Luxury SUV with smooth drive.')">Info</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Kia EV6 -->
+        <article class="car-card">
+          <img alt="Kia EV6"
+               data-candidates="img/kia_ev6.jpg,img/kia_ev6.jpeg,img/kia_ev6.png,img/Kia_EV6.jpg,img/Kia_EV6.jpeg,img/Kia_EV6.png">
+          <div class="car-card-body">
+            <h3>Kia EV6</h3>
+            <p class="price">From $105/day</p>
+            <ul class="specs"><li>Seats: 5</li><li>Range: ~310 km</li><li>Auto</li></ul>
+            <div class="card-actions">
+              <a class="btn-small" href="booking.html?car=Kia%20EV6">Reserve</a>
+              <button class="btn-small-outline" onclick="openQuickInfo('Kia EV6','Sporty crossover with fast charging.')">Info</button>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>
 
+  <!-- Quick info modal (unchanged) -->
   <div id="quickInfo" class="modal" aria-hidden="true">
     <div class="modal-body">
       <button class="modal-close" onclick="closeQuickInfo()">×</button>
