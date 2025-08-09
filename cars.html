@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AZoom Car Rental — Our Cars</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html">AZoom <span class="accent">Car Rental</span></a></div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="cars.html" class="nav-link active">Our Cars</a>
+        <a href="about.html" class="nav-link">Why Choose Us</a>
+        <a href="booking.html" class="nav-link">Booking</a>
+      </nav>
+      <div data-auth></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1 class="section-title">Our Electric Fleet</h1>
+      <p class="section-sub">Choose from our range of six fully electric cars, perfect for all needs and budgets.</p>
+      <div class="grid grid-3 car-list">
+        <article class="car-card"><img src="img/tesla_model3.jpg" alt="Tesla Model 3"><div class="car-card-body"><h3>Tesla Model 3</h3><p class="price">From $120/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Tesla%20Model%203">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Tesla Model 3','Premium sedan with long range.')">Info</button></div></div></article>
+        <article class="car-card"><img src="img/nissan_leaf.jpg" alt="Nissan Leaf"><div class="car-card-body"><h3>Nissan Leaf</h3><p class="price">From $90/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~240 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Nissan%20Leaf">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Nissan Leaf','Compact and efficient city EV.')">Info</button></div></div></article>
+        <article class="car-card"><img src="img/hyundai_ioniq.jpg" alt="Hyundai Ioniq"><div class="car-card-body"><h3>Hyundai Ioniq</h3><p class="price">From $100/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~300 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Hyundai%20Ioniq">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Hyundai Ioniq','Comfortable family EV.')">Info</button></div></div></article>
+        <article class="car-card"><img src="img/bmw_i3.jpg" alt="BMW i3"><div class="car-card-body"><h3>BMW i3</h3><p class="price">From $110/day</p><ul class="specs"><li>Seats: 4</li><li>Range: ~260 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=BMW%20i3">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('BMW i3','Stylish compact with premium feel.')">Info</button></div></div></article>
+        <article class="car-card"><img src="img/audi_e_tron.jpg" alt="Audi e-tron"><div class="car-card-body"><h3>Audi e-tron</h3><p class="price">From $150/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~350 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Audi%20e%2Dtron">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Audi e-tron','Luxury SUV with smooth drive.')">Info</button></div></div></article>
+        <article class="car-card"><img src="img/kia_ev6.jpg" alt="Kia EV6"><div class="car-card-body"><h3>Kia EV6</h3><p class="price">From $105/day</p><ul class="specs"><li>Seats: 5</li><li>Range: ~310 km</li><li>Auto</li></ul><div class="card-actions"><a class="btn-small" href="booking.html?car=Kia%20EV6">Reserve</a><button class="btn-small-outline" onclick="openQuickInfo('Kia EV6','Sporty crossover with fast charging.')">Info</button></div></div></article>
+      </div>
+    </section>
+  </main>
+
+  <div id="quickInfo" class="modal" aria-hidden="true">
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeQuickInfo()">×</button>
+      <h3 id="quickInfoTitle"></h3>
+      <p id="quickInfoText"></p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© 2025 AZoom Car Rental</div>
+      <div>Contact: azoomklc@gmail.com | +65 8234 6555</div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

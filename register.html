@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AZoom Car Rental — Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand"><a href="index.html">AZoom <span class="accent">Car Rental</span></a></div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="cars.html" class="nav-link">Our Cars</a>
+        <a href="about.html" class="nav-link">Why Choose Us</a>
+        <a href="booking.html" class="nav-link">Booking</a>
+      </nav>
+      <div data-auth></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h1 class="section-title">Create your account</h1>
+      <p class="section-sub">Accounts are stored in your browser (localStorage). This is a backend-free demo.</p>
+
+      <form id="registerForm" class="form-grid">
+        <label>Full name<input type="text" id="r_name" required placeholder="Jane Doe"></label>
+        <label>Email<input type="email" id="r_email" required placeholder="you@example.com"></label>
+        <label>Password<input type="password" id="r_password" required></label>
+        <label>Confirm password<input type="password" id="r_confirm" required></label>
+        <div class="form-actions"><button type="submit" class="btn">Create account</button><a class="btn-outline" href="login.html">Have an account? Login</a></div>
+        <div id="registerMsg" style="grid-column:1/-1;color:#ffb4b4;font-weight:600;min-height:1.2em"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© 2025 AZoom Car Rental</div>
+      <div>Contact: azoomklc@gmail.com | +65 8234 6555</div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
