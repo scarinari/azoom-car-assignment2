@@ -16,20 +16,112 @@
         <a href="about.html" class="nav-link active">Why Choose Us</a>
         <a href="booking.html" class="nav-link">Booking</a>
       </nav>
+      <!-- Right-side auth box (script.js will render Login or Reserve+Logout) -->
       <div data-auth></div>
     </div>
   </header>
+  
 
   <main>
-    <section class="section">
-      <div class="container">
-        <h1 class="section-title">Why AZoom?</h1>
-        <p class="section-sub">We make electric mobility simple — clear pricing, easy booking, and convenient pickup & returns.</p>
-        <div class="grid grid-3">
-          <div class="feature"><h4>Our mission</h4><p>Promote sustainable mobility by making EV rentals accessible and hassle-free.</p></div>
-          <div class="feature"><h4>What you get</h4><p>All-electric fleet, flexible terms, and easy returns.</p></div>
-          <div class="feature"><h4>Support</h4><p>Helpdesk for roadside and booking queries anytime.</p></div>
+    <!-- Slim hero -->
+    <section class="subhero">
+      <div class="container subhero-inner">
+        <div>
+          <h1>Why AZoom?</h1>
+          <p>We make electric mobility simple — clear pricing, easy booking, and convenient pickup & returns.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <!-- Two-card layout: Mission + What you get -->
+      <div class="grid grid-2 gap-24">
+        <article class="panel">
+          <h2 class="eyebrow">Our mission</h2>
+          <p class="muted">Promote sustainable urban mobility by making EV rentals accessible and hassle-free. We focus on a frictionless experience across booking, pickup and returns.</p>
+          <ul class="checklist">
+            <li>Transparent pricing & clear policies</li>
+            <li>Modern EVs with reliable range</li>
+            <li>Secure card payments (demo front-end)</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h2 class="eyebrow">What you get</h2>
+          <div class="perk-grid">
+            <div class="perk">
+              <div class="perk-badge">24/7</div>
+              <h3>Support</h3>
+              <p class="muted">Helpdesk for roadside and booking queries anytime.</p>
+            </div>
+            <div class="perk">
+              <div class="perk-badge">EV</div>
+              <h3>All-electric fleet</h3>
+              <p class="muted">Comfortable, quiet, and efficient vehicles.</p>
+            </div>
+            <div class="perk">
+              <div class="perk-badge">↔︎</div>
+              <h3>Flexible terms</h3>
+              <p class="muted">Daily, weekly, or monthly — you choose.</p>
+            </div>
+            <div class="perk">
+              <div class="perk-badge">✓</div>
+              <h3>Easy returns</h3>
+              <p class="muted">Drop at designated car parks, inspected on the spot.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Visual service flow -->
+    <section class="container section">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub muted">A simple 5-step flow from booking to final billing.</p>
+
+      <ol class="flow">
+        <li class="flow-step">
+          <span class="flow-dot">1</span>
+          <h4>Reserve online</h4>
+          <p class="muted">Choose car, period & branch. Pay with credit card (demo validation).</p>
+        </li>
+        <li class="flow-step">
+          <span class="flow-dot">2</span>
+          <h4>Pick up</h4>
+          <p class="muted">Collect at your selected branch with your license and booking ID.</p>
+        </li>
+        <li class="flow-step">
+          <span class="flow-dot">3</span>
+          <h4>Enjoy the ride</h4>
+          <p class="muted">Unlimited smiles. Call support anytime.</p>
+        </li>
+        <li class="flow-step">
+          <span class="flow-dot">4</span>
+          <h4>Return & inspect</h4>
+          <p class="muted">Return at the designated car park; staff perform damage check.</p>
+        </li>
+        <li class="flow-step">
+          <span class="flow-dot">5</span>
+          <h4>Final bill</h4>
+          <p class="muted">Rental + any damages finalized at the counter (explained here in demo).</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Branches -->
+    <section class="container section">
+      <h2 class="section-title">Branches</h2>
+      <div class="grid grid-2 gap-24">
+        <article class="panel branch">
+          <h3>Central Branch</h3>
+          <p class="muted">10 Orchard Rd — Multi-storey car park, Level 3</p>
+          <a class="btn-small" href="booking.html">Book pick-up here</a>
+        </article>
+        <article class="panel branch">
+          <h3>East Branch</h3>
+          <p class="muted">45 East Ave — Designated EV bays, Basement 1</p>
+          <a class="btn-small" href="booking.html">Book pick-up here</a>
+        </article>
       </div>
     </section>
   </main>
