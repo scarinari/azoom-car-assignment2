@@ -1,10 +1,10 @@
-/* Frontend-only auth, header UI, booking guard, and robust hero banner handling */
+/* AZoom Frontend: auth, header UI, booking guard, hero banner, car image fallbacks (no backend) */
 (function () {
   const KEY_USERS = 'az_users';
   const KEY_SESSION = 'az_session';
   const KEY_HERO = 'az_hero_url';
 
-  // -------- Tiny SHA-1 (demo hashing only) --------
+  // -------- Tiny SHA-1 (demo only; not for production) --------
   function rotl(n, s) { return (n << s) | (n >>> (32 - s)); }
   function sha1(str) {
     let H0 = 0x67452301, H1 = 0xEFCDAB89, H2 = 0x98BADCFE, H3 = 0x10325476, H4 = 0xC3D2E1F0;
@@ -34,7 +34,9 @@
   function loadUsers() { const raw = localStorage.getItem(KEY_USERS); const arr = safeParse(raw, []); return Array.isArray(arr) ? arr : []; }
   function saveUsers(list) { localStorage.setItem(KEY_USERS, JSON.stringify(list)); }
   function currentUser() { return safeParse(sessionStorage.getItem(KEY_SESSION), null); }
-  function setSession(user) { sessionStorage.setItem(KEY_SESSION, JSON.stringify({ email: user.email, name: user.name || user.email, ts: Date.now() })); }
+  function setSession(user) {
+    sessionStorage.setItem(KEY_SESSION, JSON.stringify({ email: user.email, name: user.name || user.email, ts: Date.now() }));
+  }
   function clearSession() { sessionStorage.removeItem(KEY_SESSION); }
 
   // -------- Auth core --------
@@ -67,7 +69,7 @@
     if (!header) return null;
     let box = header.querySelector('[data-auth]');
     if (!box) { box = document.createElement('div'); box.setAttribute('data-auth',''); header.appendChild(box); }
-    box.style.display = 'flex'; box.style.gap = '8px'; box.style.alignItems = 'center';
+    Object.assign(box.style, { display: 'flex', gap: '8px', alignItems: 'center' });
     return box;
   }
   function renderAuthUI() {
@@ -105,58 +107,92 @@
     e.preventDefault();
     const u = currentUser();
     if (!u) { location.href = 'login.html?next=' + encodeURIComponent('booking.html'); return false; }
-    const name = document.getElementById('name')?.value.trim();
-    const email = document.getElementById('email')?.value.trim();
-    const phone = document.getElementById('phone')?.value.trim();
+
+    const name = document.getElementById('name')?.value?.trim();
+    const email = document.getElementById('email')?.value?.trim();
+    const phone = document.getElementById('phone')?.value?.trim();
     const car = document.getElementById('car')?.value;
     const duration = document.getElementById('duration')?.value;
     const branch = document.getElementById('branch')?.value;
     const cc = document.getElementById('creditCard')?.value;
+
     if (!luhnOk(cc)) { alert('Please enter a valid credit card number.'); return false; }
+
     const id = 'B' + Math.random().toString(36).slice(2, 8).toUpperCase();
     const payload = { id, user: u.email, name, email, phone, car, duration, branch, ts: Date.now() };
     const all = safeParse(localStorage.getItem('az_bookings'), []); all.push(payload);
     localStorage.setItem('az_bookings', JSON.stringify(all));
-    const txt = document.getElementById('confirmText'); if (txt) txt.textContent = `Reservation ${id} received for ${car} (${duration}), pick-up at ${branch}. A confirmation has been simulated for ${email}.`;
-    const modal = document.getElementById('confirmModal'); if (modal) modal.setAttribute('aria-hidden', 'false');
+
+    const txt = document.getElementById('confirmText');
+    if (txt) txt.textContent = `Reservation ${id} received for ${car} (${duration}), pick-up at ${branch}. A confirmation has been simulated for ${email}.`;
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.setAttribute('aria-hidden', 'false');
     return false;
   };
-  window.closeConfirm = function () { document.getElementById('confirmModal')?.setAttribute('aria-hidden', 'true'); };
+  window.closeConfirm = function () {
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.setAttribute('aria-hidden', 'true');
+  };
 
-  // -------- Forms auto-bind (optional) --------
+  // -------- Login/Register auto-bind (if those pages exist) --------
   function bindFormsIfPresent() {
     const rf = document.getElementById('registerForm');
-    if (rf) rf.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('r_name')?.value || '';
-      const email = document.getElementById('r_email')?.value || '';
-      const pw = document.getElementById('r_password')?.value || '';
-      const cf = document.getElementById('r_confirm')?.value || '';
-      const msg = document.getElementById('registerMsg');
-      if (msg) msg.textContent = '';
-      try { if (pw !== cf) throw new Error('Passwords do not match'); register(name, email, pw); login(email, pw); location.href = 'index.html'; }
-      catch (err) { if (msg) msg.textContent = err.message || 'Registration failed'; else alert(err.message || 'Registration failed'); }
-    });
+    if (rf) {
+      rf.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('r_name')?.value || '';
+        const email = document.getElementById('r_email')?.value || '';
+        const pw = document.getElementById('r_password')?.value || '';
+        const cf = document.getElementById('r_confirm')?.value || '';
+        const msg = document.getElementById('registerMsg');
+        if (msg) msg.textContent = '';
+        try {
+          if (pw !== cf) throw new Error('Passwords do not match');
+          register(name, email, pw);
+          login(email, pw);                  // auto-login after register
+          location.href = 'index.html';
+        } catch (err) {
+          if (msg) msg.textContent = err.message || 'Registration failed';
+          else alert(err.message || 'Registration failed');
+        }
+      });
+    }
 
     const lf = document.getElementById('loginForm');
-    if (lf) lf.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = lf.querySelector('[name="email"]')?.value || '';
-      const password = lf.querySelector('[name="password"]')?.value || '';
-      const msg = document.getElementById('loginMsg'); if (msg) msg.textContent = '';
-      try { login(email, password); const next = new URLSearchParams(location.search).get('next') || 'index.html'; location.href = next; }
-      catch (err) { if (msg) msg.textContent = err.message || 'Login failed'; else alert(err.message || 'Login failed'); }
-    });
-  }
-
-  // -------- HERO BANNER: cache & reapply so it never disappears --------
-  function applyCachedHero() {
-    const cached = localStorage.getItem(KEY_HERO);
-    const hero = document.getElementById('hero');
-    if (hero && cached) {
-      hero.style.background = `url('${cached}') center/cover no-repeat`;
+    if (lf) {
+      lf.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = lf.querySelector('[name="email"]')?.value || '';
+        const password = lf.querySelector('[name="password"]')?.value || '';
+        const msg = document.getElementById('loginMsg'); if (msg) msg.textContent = '';
+        try {
+          login(email, password);
+          const next = new URLSearchParams(location.search).get('next') || 'index.html';
+          location.href = next;
+        } catch (err) {
+          if (msg) msg.textContent = err.message || 'Login failed';
+          else alert(err.message || 'Login failed');
+        }
+      });
     }
   }
+
+  // -------- Quick Info modal (used on cars.html) --------
+  window.openQuickInfo = function (title, text) {
+    const m = document.getElementById('quickInfo');
+    if (!m) return;
+    const t = document.getElementById('quickInfoTitle');
+    const p = document.getElementById('quickInfoText');
+    if (t) t.textContent = title || '';
+    if (p) p.textContent = text || '';
+    m.setAttribute('aria-hidden', 'false');
+  };
+  window.closeQuickInfo = function () {
+    const m = document.getElementById('quickInfo');
+    if (m) m.setAttribute('aria-hidden', 'true');
+  };
+
+  // -------- Image helpers: hero + car fallbacks (GitHub Pages case/extension issues) --------
   function tryImagesSequentially(urls, onFound, onFail) {
     let i = 0;
     const testNext = () => {
@@ -165,9 +201,18 @@
       const img = new Image();
       img.onload = () => onFound(url);
       img.onerror = testNext;
-      img.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now(); // bust cache
+      img.src = url + (url.includes('?') ? '&' : '?') + 'v=' + Date.now(); // cache-bust
     };
     testNext();
+  }
+
+  // Hero banner: cache & reapply so it never disappears on login/redirect
+  function applyCachedHero() {
+    const cached = localStorage.getItem(KEY_HERO);
+    const hero = document.getElementById('hero');
+    if (hero && cached) {
+      hero.style.background = `url('${cached}') center/cover no-repeat`;
+    }
   }
   function initHeroImageFallback() {
     const hero = document.getElementById('hero');
@@ -176,22 +221,40 @@
     if (!raw) return;
     const candidates = raw.split(',').map(s => s.trim()).filter(Boolean);
     tryImagesSequentially(candidates, (ok) => {
-      // set & cache
       hero.style.background = `url('${ok}') center/cover no-repeat`;
       localStorage.setItem(KEY_HERO, ok);
+    });
+  }
+
+  // Cars page: set <img> src by trying filename variants until one works
+  function initCarImagesFallback() {
+    document.querySelectorAll('img[data-candidates]').forEach(imgEl => {
+      const raw = imgEl.getAttribute('data-candidates') || '';
+      const candidates = raw.split(',').map(s => s.trim()).filter(Boolean);
+      if (!candidates.length) return;
+      tryImagesSequentially(candidates, (ok) => {
+        imgEl.src = ok;
+      }, () => {
+        // fallback placeholder if nothing matched
+        imgEl.alt = (imgEl.alt || 'Image') + ' (image missing)';
+        imgEl.style.background = '#111';
+        imgEl.style.minHeight = '160px';
+        imgEl.style.display = 'block';
+      });
     });
   }
 
   // -------- Public API (optional) --------
   window.AZAuth = { login, register, currentUser, clearSession, renderAuthUI };
 
-  // -------- Boot (run multiple times to survive navigation/login) --------
+  // -------- Boot --------
   function boot() {
-    applyCachedHero();       // show banner immediately from cache (prevents flicker/disappear after login)
-    renderAuthUI();          // draw header buttons
-    bindFormsIfPresent();    // wire login/register if present
-    guardBooking();          // protect booking page
-    initHeroImageFallback(); // resolve banner if cache missing/changed
+    applyCachedHero();        // show banner immediately from cache (prevents flicker/disappear)
+    renderAuthUI();           // draw header actions
+    bindFormsIfPresent();     // wire login/register if present
+    guardBooking();           // protect booking page
+    initHeroImageFallback();  // resolve hero if not cached or changed
+    initCarImagesFallback();  // resolve cars images on cars.html
   }
 
   document.addEventListener('DOMContentLoaded', boot);
